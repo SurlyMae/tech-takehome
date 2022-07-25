@@ -6,8 +6,16 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
+```
+
+Run the database container:
+
+```bash
+# in its own terminal
+$ docker-compose up dev-db
+
+# in the background
+$ docker-compose up dev-db -d
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
