@@ -11,57 +11,18 @@ datasource db {
 }
 
 model User {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  name      String    @unique
+  expense   Expense[]
+}
+
+model Expense {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
-  email     String   @unique
-  password  String
-  // user can have many events
-  events    Event[]
+  name      String   @unique
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
-
-// event can have many schedules (ie. repeating events)
-// it's the combination of event and schedule that makes it unique
-model Event {
-  id        Int             @id @default(autoincrement())
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  name      String          @unique
-  //events can have many users
-  users     User[]
-  //events can have many schedules
-  schedules EventSchedule[]
-}
-
-// admin should be able to CRUD schedules
-// admin should be able to attach a schedule to an event
-
-model EventSchedule {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  //schedule can belong to many events (think recurring weekly rows)
-  events    Event[]
-  date      String?
-  time      String?
-  details   String?
-  // what else needs to be on the schedule model? 
-  // recurrent type like 'daily' or 'weekly'?
-  // start date, end date, days of the week ... might need an event schedule type (daily, weekly)
-  // start time, end time, 
-  // how do we keep users from having to enter the same schedule info over and over?
-  // what is the easiest way for a user to say, 'add the same event for every Tuesday at 6 and every saturday at 8?'
-  // and what is the most performant way for a user to search by 'events in the next month' or 'events in x timeframe'?
-}
-
-//may not even need scheduleType, might be overcomplicating
-//but type could give a way to sort - would a user search for events by recurring vs not?
-//"show all recurring events"
-// model EventScheduleType {
-//   id            Int             @id @default(autoincrement())
-//   createdAt     DateTime        @default(now())
-//   updatedAt     DateTime        @updatedAt
-//   name          String // daily, weekly
-//   EventSchedule EventSchedule[]
-// }

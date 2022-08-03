@@ -1,39 +1,29 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
-import { eventsData } from "./eventsData";
+import { expensesData } from "./expensesData";
 
 const db = new PrismaClient();
 
 const seedDatabase = async () => {
+  const user = await db.user.upsert({
+    where: { name: "firstName lastName" },
+    update: {},
+    create: {
+      name: "firstName lastName",
+    },
+  });
+
   await Promise.all(
-    eventsData.map((event) => {
-      return db.event.upsert({
-        where: { name: event.name },
+    expensesData.map((expense) => {
+      return db.expense.upsert({
+        where: { name: expense.name },
         update: {},
         create: {
-          name: event.name,
-          schedules: {
-            create: event.schedules.map((schedule) => ({
-              date: schedule.date,
-              time: schedule.time,
-              details: schedule.details,
-            })),
-          },
+          name: expense.name,
+          userId: user.id,
         },
       });
     })
   );
-
-  const salt = bcrypt.genSaltSync();
-  await db.user.upsert({
-    where: { email: "user@test.com" },
-    update: {},
-    create: {
-      name: "firstName lastName",
-      email: "user@test.com",
-      password: bcrypt.hashSync("password", salt),
-    },
-  });
 };
 
 seedDatabase()
