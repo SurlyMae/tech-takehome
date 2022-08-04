@@ -23,6 +23,7 @@ model Expense {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String   @unique
+  amount    String
   user      User?    @relation(fields: [userId], references: [id])
   userId    Int?
 }

@@ -20,6 +20,7 @@ const seedDatabase = async () => {
         create: {
           name: expense.name,
           userId: user.id,
+          amount: expense.amount,
         },
       });
     })
