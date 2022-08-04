@@ -52,8 +52,16 @@ $ npx prisma studio
 ### API calls:
 
 ```bash
-# get all expenses
+# get
 :3000/api/expenses
+
+# post
+:3000/api/expenses
+body: {name, amount}
+
+# delete
+:3000/api/expenses
+body: {name}
 ```
 
 <br>
