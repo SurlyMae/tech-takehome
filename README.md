@@ -26,8 +26,8 @@ Start your docker daemon before running:
 $ docker-compose up dev-db
 ```
 
-If you don't want to use docker and have your own local postgres instance, you can use that instead.  
-If you do this, you'll need to change the postgres url to point to your local database.  
+If you don't want to use docker you can use your own postgres instance instead.
+If you do this, you'll need to change the postgres url to point to your database.  
 It is the DATABASE_URL variable in the `.env` file.
 
 ### Connect ORM to db
@@ -57,11 +57,11 @@ localhost:3000/api/expenses
 
 # post
 localhost:3000/api/expenses
-body: {name, amount}
+body: {name: string, amount: string}
 
 # delete
 localhost:3000/api/expenses
-body: {name}
+body: {name: string}
 ```
 
 ## Learn more
